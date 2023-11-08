@@ -116,24 +116,20 @@ public class MersysStudentGroupsTests {
         given()
                 .spec(requestSpecification)
                 .body(studentGroup)
-                .log().body()
+                // .log().body()
 
                 .when()
                 .put("")
 
                 .then()
-                .log().body()
+                .log().body() // show incoming body as log
                 .statusCode(200)
-                .body("name", equalTo("New " + studentGroupName));
+                .body("name", equalTo("New " + studentGroupName))
         ;
     }
 
     @Test(dependsOnMethods = "editStudentGroup")
     public void deleteStudentGroup() {
-
-        studentGroup.put("id", studentGroupID);
-        studentGroup.put("name", "New " + studentGroupName);
-        studentGroup.put("description", studentGroupDescription + randomGenerator.shakespeare());
 
         given()
                 .spec(requestSpecification)
@@ -151,10 +147,6 @@ public class MersysStudentGroupsTests {
     @Test(dependsOnMethods = "deleteStudentGroup")
     public void deleteStudentGroupNegative() {
 
-        studentGroup.put("id", studentGroupID);
-        studentGroup.put("name", "New " + studentGroupName);
-        studentGroup.put("description", studentGroupDescription + randomGenerator.shakespeare());
-
         given()
                 .spec(requestSpecification)
                 .pathParam("studentGroupID", studentGroupID)
@@ -166,8 +158,7 @@ public class MersysStudentGroupsTests {
                 .then()
                 .log().body()
                 .statusCode(400)
-                .body("message", equalTo("Group with given id does not exist!"));
-
+                .body("message", equalTo("Group with given id does not exist!"))
         ;
     }
 }
